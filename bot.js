@@ -26,8 +26,15 @@ function handleStart(msg) {
   bot.sendMessage(chatId, "Добрый день! Можете написать грубость?");
 }
 
+// Listen for any kind of message. There are different kinds of
+// messages.
+bot.on('message', (msg) => {
 
-bot.onText(/^/, function (msg) {
+  console.log('\n📰  Received message:');
+  console.log('  ', msg.text);
+
+  const chatId = msg.chat.id;
+
   /**
    * @type {string}
    */
@@ -55,6 +62,18 @@ bot.onText(/^/, function (msg) {
       word: 'хуи',
       replacement: 'х*и'
     },
+    { 
+      word: 'cука',
+      replacement: 'с*к*'
+    },    
+    { 
+      word: 'cуки',
+      replacement: 'с*к*'
+    },     
+    { 
+      word: 'заебись',
+      replacement: 'з****сь'
+    },       
     { 
       word: 'пизда',
       replacement: 'п***а'
@@ -86,10 +105,10 @@ bot.onText(/^/, function (msg) {
     
     if (dest != source) {
       bot.sendMessage(msg.chat.id, dest);
+      console.log('  ', dest);
     }
   }; 
 
 });
-
 
 module.exports = bot;
