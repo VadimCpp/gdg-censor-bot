@@ -54,6 +54,10 @@ bot.onText(/^/, function (msg) {
     { 
       word: 'хуи',
       replacement: 'х*и'
+    },
+    { 
+      word: 'пизда',
+      replacement: 'п***а'
     }
   ];
 
