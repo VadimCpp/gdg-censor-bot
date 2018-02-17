@@ -30,85 +30,114 @@ function handleStart(msg) {
 // messages.
 bot.on('message', (msg) => {
 
+  // console.log(JSON.stringify(msg));
+
   console.log('\n📰  Received message:');
-  console.log('  ', msg.text);
+  console.log('  ', msg.text || '(no text)');
 
-  const chatId = msg.chat.id;
+  if (msg.text) {
 
-  /**
-   * @type {string}
-   */
-  var text = msg.text;
-
-  /**
-   * @type {Array}
-   */
-  var args = text.split(" ");
-
-  var veryBadArray = [
-    { 
-      word: 'жопа',
-      replacement: 'ягодицы'
-    },
-    { 
-      word: 'дурак',
-      replacement: 'глупый человек'
-    },
-    { 
-      word: 'хуй',
-      replacement: 'х*й'
-    },
-    { 
-      word: 'хуи',
-      replacement: 'х*и'
-    },
-    { 
-      word: 'cука',
-      replacement: 'с*к*'
-    },    
-    { 
-      word: 'cуки',
-      replacement: 'с*к*'
-    },     
-    { 
-      word: 'заебись',
-      replacement: 'з****сь'
-    },       
-    { 
-      word: 'пизда',
-      replacement: 'п***а'
-    }
-  ];
-
-  if (args[0] === '/start') {
-    handleStart(msg, args);
-  } else {
+    const chatId = msg.chat.id;
 
     /**
      * @type {string}
      */
-    var source = msg.text;
+    var text = msg.text;
 
     /**
-     * @type {string}
+     * @type {Array}
      */
-    var dest = source;
+    var args = text.split(" ");
 
-    for (var i = 0; i < veryBadArray.length; i++) {
+    var veryBadArray = [
+      { 
+        word: 'дурак',
+        replacement: 'глупый человек'
+      },
+      { 
+        word: 'жопа',
+        replacement: 'ягодицы'
+      },
+      { 
+        word: 'ебло',
+        replacement: 'е**о'
+      },
+      { 
+        word: 'хуй',
+        replacement: 'х*й'
+      },
+      { 
+        word: 'хуи',
+        replacement: 'х*и'
+      },
+      { 
+        word: 'хуем',
+        replacement: 'х**м'
+      },
+      { 
+        word: 'хуярить',
+        replacement: 'х****ь'
+      },
+      { 
+        word: 'сука',
+        replacement: 'с*к*'
+      },    
+      { 
+        word: 'cуки',
+        replacement: 'с*к*'
+      },     
+      { 
+        word: 'заебись',
+        replacement: 'з****сь'
+      },       
+      { 
+        word: 'пизда',
+        replacement: 'п***а'
+      }
+    ];
+
+    if (args[0] === '/start') {
+      handleStart(msg, args);
+    } else {
+
       /**
-       * @type {number}
+       * @type {string}
        */
-      var obj = veryBadArray[i];
+      var source = msg.text;
 
-      dest = dest.replace(new RegExp(obj.word, 'g'), obj.replacement);
-    }
-    
-    if (dest != source) {
-      bot.sendMessage(msg.chat.id, dest);
-      console.log('  ', dest);
-    }
-  }; 
+      /**
+       * @type {string}
+       */
+      var dest = source;
 
+      for (var i = 0; i < veryBadArray.length; i++) {
+        /**
+         * @type {number}
+         */
+        var obj = veryBadArray[i];
+
+        dest = dest.replace(new RegExp(obj.word, 'g'), obj.replacement);
+      }
+      
+      if (dest != source) {
+
+
+        /**
+         * @type {string}
+         */
+        let name = (msg.from.first_name && msg.from.last_name) ? 
+                    msg.from.first_name + msg.from.last_name :
+                    msg.from.username;
+
+        dest = name + ' спизданул: \n' + dest;
+
+        // bot.deleteMessage(msg.chat.id, msg.message_id);
+        bot.sendMessage(msg.chat.id, dest);
+        console.log('  ', dest);
+      }
+    }; 
+
+  }
 });
 
 module.exports = bot;
