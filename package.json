@@ -1,0 +1,23 @@
+{
+  "name": "gdg-censor-bot",
+  "version": "1.0.0",
+  "description": "GDG Censor Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "export $(cat .env | xargs) && node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VadimCpp/gdg-censor-bot.git"
+  },
+  "author": "Vadim Cpp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VadimCpp/gdg-censor-bot/issues"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "node-telegram-bot-api": "^0.21.1"
+  }
+}
