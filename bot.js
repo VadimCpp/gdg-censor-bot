@@ -135,7 +135,7 @@ bot.on('message', (msg) => {
 
         dest = name + ' спизданул: \n' + dest;
 
-        // bot.deleteMessage(msg.chat.id, msg.message_id);
+        bot.deleteMessage(msg.chat.id, msg.message_id);
         bot.sendMessage(msg.chat.id, dest);
         console.log('  ', dest);
       }
