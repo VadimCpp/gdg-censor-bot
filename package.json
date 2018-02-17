@@ -4,6 +4,7 @@
   "description": "GDG Censor Bot",
   "main": "index.js",
   "scripts": {
+    "dev": "export $(cat .env | xargs) && node index.js",
     "start": "export $(cat .env | xargs) && node index.js"
   },
   "repository": {

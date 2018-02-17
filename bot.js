@@ -1,7 +1,18 @@
 const Bot = require('node-telegram-bot-api');
+const BadWords = require('./data/badWords.json');
+const WordsBefore = require('./data/wordsBefore.json');
+const WordsAfter = require('./data/wordsAfter.json');
+const Smiles = require('./data/smiles.json');
+
 const token = process.env.BOT_ACCESS_TOKEN;
 const isProduction = process.env.NODE_ENV === 'production';
+
+// console.log(BadWords);
+// console.log(WordsBefore);
+// console.log(WordsAfter);
+// console.log(Smiles);
 // @TODO: Вынести в отдельный файл
+
 const veryBadArray = [
   { 
     word: 'дурак',
@@ -73,7 +84,7 @@ const handleStart = (msg) => {
    */
   const chatId = msg.chat.id;
 
-  bot.sendMessage(chatId, "Добрый день! Можете написать грубость?");
+  bot.sendMessage(chatId, "Добрый день!");
 }
 
 // Listen for any kind of message. There are different kinds of
@@ -110,9 +121,9 @@ bot.on('message', (msg) => {
       /**
        * @type {string}
        */
-      const dest = source;
+      let dest = source;
 
-      for (var i = 0; i < veryBadArray.length; i++) {
+      for (let i = 0; i < veryBadArray.length; i++) {
         /**
          * @type {number}
          */
@@ -133,7 +144,7 @@ bot.on('message', (msg) => {
 
         dest = name + ' спизданул: \n' + dest;
 
-        bot.deleteMessage(msg.chat.id, msg.message_id);
+        // bot.deleteMessage(msg.chat.id, msg.message_id);
         bot.sendMessage(msg.chat.id, dest);
         console.log('  ', dest);
       }
