@@ -79,6 +79,10 @@ bot.on('message', (msg) => {
         replacement: 'х****ь'
       },
       { 
+        word: 'сосет',
+        replacement: 'делает минет'
+      },    
+      { 
         word: 'сука',
         replacement: 'с*к*'
       },    
@@ -126,7 +130,7 @@ bot.on('message', (msg) => {
          * @type {string}
          */
         let name = (msg.from.first_name && msg.from.last_name) ? 
-                    msg.from.first_name + msg.from.last_name :
+                    msg.from.first_name + ' ' + msg.from.last_name :
                     msg.from.username;
 
         dest = name + ' спизданул: \n' + dest;
