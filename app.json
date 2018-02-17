@@ -1,0 +1,28 @@
+{
+  "name": "gdgCensorBot",
+  "description": "",
+  "scripts": {
+  },
+  "env": {
+    "BOT_ACCESS_TOKEN": {
+      "required": true
+    },
+    "NODE_ENV": {
+      "required": true
+    },
+    "HEROKU_URL": {
+      "required": true
+    },
+
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
