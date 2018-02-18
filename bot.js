@@ -47,9 +47,33 @@ const handleTest = (msg, word) => {
   }
 }
 
+/**
+ * Сохраняем данные
+ */
+const handleSave = (msg, word) => {
+  //console.log(JSON.stringify(msg));
 
-const handleSave = () => {
+  let masterId = 148045459;
 
+  if (msg.from.id == masterId) {
+    bot.sendMessage(msg.chat.id, "Сохранил 🤓: " + word);
+
+    BadWords.push(word);
+    BadWords.sort();
+
+    require('fs').writeFile(
+      './data/badWords.json',
+      JSON.stringify(BadWords),
+      function (err) {
+          if (err) {
+              console.error('Crap happens');
+          }
+      }
+    );
+
+  } else {
+    bot.sendMessage(msg.chat.id, "Нет прав 😕");
+  }
 }
 
 const getTextBefore = () => {
