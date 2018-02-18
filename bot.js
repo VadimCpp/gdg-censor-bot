@@ -106,18 +106,35 @@ const handleTest = (msg, word) => {
 
 
 
-// const getTextBefore = () => {
-//   return WordsBefore[Math.floor(Math.random() * WordsBefore.length)];
-// }
+const getTextBefore = () => {
+  return WordsBefore[Math.floor(Math.random() * WordsBefore.length)];
+}
 
-// const getTextAfter = () => {
-//   return WordsAfter[Math.floor(Math.random() * WordsAfter.length)];
-// }
+const getTextAfter = () => {
+  return WordsAfter[Math.floor(Math.random() * WordsAfter.length)];
+}
 
-// const getSmile = () => {
-//   return Smiles[Math.floor(Math.random() * Smiles.length)];
-// }
+const getSmile = () => {
+  return Smiles[Math.floor(Math.random() * Smiles.length)];
+}
 
+const getName = (msg) => {
+  console.log(JSON.stringify(msg));
+
+  let name = 'Без имени 👤';
+
+  if (msg.from.first_name || msg.from.last_name) {
+    name = msg.from.first_name + ' ' + msg.from.last_name;
+  } else if (msg.from.username) {
+    name = msg.from.username;
+  }
+
+  return name;
+}
+
+const getCensoredText = (msg) => {
+  return "Цензура"; 
+}
 
 // Listen for any kind of message. There are different kinds of
 // messages.
@@ -127,12 +144,6 @@ bot.on('message', (msg) => {
   console.log('  ', msg.text || '(no text)');
 
   if (msg.text) {
-
-    // let result = getTextBefore()
-    //   + ' ' + getName(msg)
-    //   + ' ' + getTextAfter()
-    //   + ' ' + getSmile()
-    //   + ':\n' + getCensoredText(msg);
 
     /**
      * @type {string}
@@ -155,42 +166,17 @@ bot.on('message', (msg) => {
       handleTest(msg, args[1]);
     } else {
 
-      /**
-       * @type {string}
-       */
-      const source = msg.text;
 
-      /**
-       * @type {string}
-       */
-      let dest = source;
+      let result = getTextBefore()
+        + ' ' + getName(msg)
+        + ' ' + getTextAfter()
+        + ' ' + getSmile()
+        + ' :\n' + getCensoredText(msg);
 
-      for (let i = 0; i < veryBadArray.length; i++) {
-        /**
-         * @type {number}
-         */
-        const obj = veryBadArray[i];
-
-        dest = dest.replace(new RegExp(obj.word, 'g'), obj.replacement);
-      }
-      
-      if (dest != source) {
-
-
-        /**
-         * @type {string}
-         */
-        let name = (msg.from.first_name && msg.from.last_name) ? 
-                    msg.from.first_name + ' ' + msg.from.last_name :
-                    msg.from.username;
-
-        dest = name + ' спизданул: \n' + dest;
-
-        bot.deleteMessage(msg.chat.id, msg.message_id);
-        bot.sendMessage(msg.chat.id, dest);
-        console.log('  ', dest);
-      }
-    };
+      bot.deleteMessage(msg.chat.id, msg.message_id);
+      bot.sendMessage(msg.chat.id, result);
+      console.log('  ', result);
+    }
   }
 });
 
