@@ -58,7 +58,7 @@ const handleSave = (msg, word) => {
   if (msg.from.id == masterId) {
     bot.sendMessage(msg.chat.id, "Сохранил 🤓: " + word);
 
-    BadWords.push(word);
+    BadWords.push(word.toLowerCase());
     BadWords.sort();
 
     require('fs').writeFile(
