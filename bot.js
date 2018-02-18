@@ -48,6 +48,9 @@ const handleTest = (msg, word) => {
 }
 
 
+const handleSave = () => {
+
+}
 
 const getTextBefore = () => {
   return WordsBefore[Math.floor(Math.random() * WordsBefore.length)];
@@ -111,7 +114,14 @@ const removePunctuation = (text) => {
     '"',
     '&',
     '%',
-    '#'   
+    '#',
+    '`',
+    '|',
+    '\\',
+    '/',
+    '^',
+    '~',
+    '\''
   ]
 
   for (let i = punctuation.length - 1; i >= 0; i--) {
@@ -149,7 +159,11 @@ bot.on('message', (msg) => {
       handleStart(msg, args);
     } else if (args[0] === '/t' && args[1]) {
       handleTest(msg, args[1]);
+    } else if (args[0] === '/s' && args[1]) {
+      handleSave(msg, args[1]);
     } else {
+
+      // console.log(JSON.stringify(msg));
 
       let censored = getCensoredText(msg);
 
@@ -160,7 +174,11 @@ bot.on('message', (msg) => {
           + ' ' + getSmile()
           + ' :\n' + censored;
 
-        bot.deleteMessage(msg.chat.id, msg.message_id);
+        // у чата группы отрицательный id
+        // удалять сообщения можно только в группе
+        if (msg.chat.id < 0) {
+          bot.deleteMessage(msg.chat.id, msg.message_id);
+        }
         bot.sendMessage(msg.chat.id, result);
 
         console.log(result);
