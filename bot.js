@@ -7,63 +7,6 @@ const Smiles = require('./data/smiles.json');
 const token = process.env.BOT_ACCESS_TOKEN;
 const isProduction = process.env.NODE_ENV === 'production';
 
-// console.log(BadWords);
-// console.log(WordsBefore);
-// console.log(WordsAfter);
-// console.log(Smiles);
-// @TODO: Вынести в отдельный файл
-
-const veryBadArray = [
-  { 
-    word: 'дурак',
-    replacement: 'глупый человек'
-  },
-  { 
-    word: 'жопа',
-    replacement: 'ягодицы'
-  },
-  { 
-    word: 'ебло',
-    replacement: 'е**о'
-  },
-  { 
-    word: 'хуй',
-    replacement: 'х*й'
-  },
-  { 
-    word: 'хуи',
-    replacement: 'х*и'
-  },
-  { 
-    word: 'хуем',
-    replacement: 'х**м'
-  },
-  { 
-    word: 'хуярить',
-    replacement: 'х****ь'
-  },
-  { 
-    word: 'сосет',
-    replacement: 'делает минет'
-  },    
-  { 
-    word: 'сука',
-    replacement: 'с*к*'
-  },    
-  { 
-    word: 'cуки',
-    replacement: 'с*к*'
-  },     
-  { 
-    word: 'заебись',
-    replacement: 'з****сь'
-  },       
-  { 
-    word: 'пизда',
-    replacement: 'п***а'
-  }
-];
-
 let bot;
 
 if (isProduction) {
@@ -119,8 +62,6 @@ const getSmile = () => {
 }
 
 const getName = (msg) => {
-  console.log(JSON.stringify(msg));
-
   let name = 'Без имени 👤';
 
   if (msg.from.first_name || msg.from.last_name) {
@@ -133,7 +74,51 @@ const getName = (msg) => {
 }
 
 const getCensoredText = (msg) => {
-  return "Цензура"; 
+
+  /**
+   * @type {string}
+   */
+  let censored = msg.text;
+
+  /**
+   * @type {!Array}
+   */
+  let words = msg.text.split(" ");
+  if (words.length) {
+    for (let i = words.length - 1; i >= 0; i--) {
+      let original = words[i];
+      let word = removePunctuation(words[i].toLowerCase().trim());
+
+      console.log('i = ' + i + ': ' + word);
+      if (BadWords.indexOf(word) > -1) {
+        censored = censored.replace(original, '...');
+      }
+    }
+  }
+
+  return censored; 
+}
+
+const removePunctuation = (text) => {
+  let result = text;
+
+  const punctuation = [
+    ',',
+    '.',
+    ';',
+    '?',
+    '!',
+    '"',
+    '&',
+    '%',
+    '#'   
+  ]
+
+  for (let i = punctuation.length - 1; i >= 0; i--) {
+    result = result.replace(new RegExp('\\' + punctuation[i], 'g'), '');
+  }
+
+  return result;
 }
 
 // Listen for any kind of message. There are different kinds of
@@ -166,16 +151,20 @@ bot.on('message', (msg) => {
       handleTest(msg, args[1]);
     } else {
 
+      let censored = getCensoredText(msg);
 
-      let result = getTextBefore()
-        + ' ' + getName(msg)
-        + ' ' + getTextAfter()
-        + ' ' + getSmile()
-        + ' :\n' + getCensoredText(msg);
+      if (censored != msg.text) {
+        let result = getTextBefore()
+          + ' ' + getName(msg)
+          + ' ' + getTextAfter()
+          + ' ' + getSmile()
+          + ' :\n' + censored;
 
-      bot.deleteMessage(msg.chat.id, msg.message_id);
-      bot.sendMessage(msg.chat.id, result);
-      console.log('  ', result);
+        bot.deleteMessage(msg.chat.id, msg.message_id);
+        bot.sendMessage(msg.chat.id, result);
+
+        console.log(result);
+      }
     }
   }
 });
