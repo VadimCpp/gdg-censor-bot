@@ -116,7 +116,7 @@ const getCensoredText = (msg) => {
       let original = words[i];
       let word = removePunctuation(words[i].toLowerCase().trim());
 
-      console.log('i = ' + i + ': ' + word);
+      // console.log('i = ' + i + ': ' + word);
       if (BadWords.indexOf(word) > -1) {
         censored = censored.replace(original, '...');
       }
