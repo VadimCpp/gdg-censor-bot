@@ -87,16 +87,56 @@ const handleStart = (msg) => {
   bot.sendMessage(chatId, "Добрый день!");
 }
 
+/**
+ * @param {object} msg - Объект message телеграм.
+ * @param {!string} word
+ */
+const handleTest = (msg, word) => {
+  /**
+   * @const {number|string}
+   */
+  const chatId = msg.chat.id;
+
+  if (BadWords.indexOf(word.toLowerCase().trim()) > -1) {
+    bot.sendMessage(chatId, "Слово найдено 😎: " + word);  
+  } else {
+    bot.sendMessage(chatId, "Не найдено 😐: " + word);  
+  }
+}
+
+
+
+// const getTextBefore = () => {
+//   return WordsBefore[Math.floor(Math.random() * WordsBefore.length)];
+// }
+
+// const getTextAfter = () => {
+//   return WordsAfter[Math.floor(Math.random() * WordsAfter.length)];
+// }
+
+// const getSmile = () => {
+//   return Smiles[Math.floor(Math.random() * Smiles.length)];
+// }
+
+
 // Listen for any kind of message. There are different kinds of
 // messages.
 bot.on('message', (msg) => {
-
-  // console.log(JSON.stringify(msg));
 
   console.log('\n📰  Received message:');
   console.log('  ', msg.text || '(no text)');
 
   if (msg.text) {
+
+    // let result = getTextBefore()
+    //   + ' ' + getName(msg)
+    //   + ' ' + getTextAfter()
+    //   + ' ' + getSmile()
+    //   + ':\n' + getCensoredText(msg);
+
+    /**
+     * @type {string}
+     */
     const chatId = msg.chat.id;
 
     /**
@@ -111,6 +151,8 @@ bot.on('message', (msg) => {
 
     if (args[0] === '/start') {
       handleStart(msg, args);
+    } else if (args[0] === '/t' && args[1]) {
+      handleTest(msg, args[1]);
     } else {
 
       /**
@@ -144,7 +186,7 @@ bot.on('message', (msg) => {
 
         dest = name + ' спизданул: \n' + dest;
 
-        // bot.deleteMessage(msg.chat.id, msg.message_id);
+        bot.deleteMessage(msg.chat.id, msg.message_id);
         bot.sendMessage(msg.chat.id, dest);
         console.log('  ', dest);
       }
