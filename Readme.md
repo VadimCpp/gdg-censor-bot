@@ -2,9 +2,7 @@
 
 > Проект для KonigHack 2018
 
- © 2018 Vadim Cpp
-
- ## Build Setup
+## Build Setup
 
 ``` bash
 # Clone the repo
@@ -23,4 +21,3 @@ cp .env.default .env
 npm run dev
 
 ```
-
