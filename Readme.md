@@ -4,6 +4,9 @@
 
 > Проект для KonigHack 2018
 
+Описание процесса:
+https://webdev2018.blogspot.ru/2018/02/gdg-censor-bot.html
+
 ## Build Setup
 
 ``` bash
