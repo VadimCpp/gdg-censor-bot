@@ -4,9 +4,6 @@
 
 > Проект для KonigHack 2018
 
-Описание процесса:
-https://webdev2018.blogspot.ru/2018/02/gdg-censor-bot.html
-
 ## Build Setup
 
 ``` bash
@@ -26,3 +23,13 @@ cp .env.default .env
 npm run dev
 
 ```
+
+## Дополнительно ##
+
+Telegram-бот. Цензура чата:
+
+https://webdev2018.blogspot.ru/2018/02/gdg-censor-bot.html
+
+## Еще про исходники ##
+
+В этом репозитории находится только та часть кода, которая была написана за время хакатона. Остальные доработки "уехали" хранятся в закрытом репозитории, код которого используется ботом: https://t.me/gdgCensorBot
